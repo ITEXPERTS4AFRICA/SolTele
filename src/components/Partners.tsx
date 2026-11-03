@@ -4,18 +4,18 @@ import { partnerLogos } from '../assets/images'
 import { CircuitPagne, DiagonalDivider } from '../assets/patterns'
 import { SectionHeader } from './ui/SectionHeader'
 
-/** Single partner logo card: grayscale at rest, full colour + neon green glow on hover. */
+/** Single partner logo card: subtle grayscale at rest, full colour on hover. */
 function PartnerCard({ item, lang }: { item: PartnerConfig; lang: 'fr' | 'en' }) {
   const logoSrc = partnerLogos[item.logoKey]
   const specialty = lang === 'fr' ? item.specialtyFr : item.specialtyEn
 
   return (
     <div
-      className="cut-tr group relative flex h-28 w-64 shrink-0 flex-col items-center justify-between rounded-md border border-white/15 bg-white/[0.04] p-3.5 transition-all duration-300 hover:-translate-y-1 hover:border-brand-neon hover:bg-white/[0.09] hover:shadow-glow-sm sm:w-72"
+      className="card cut-tr group relative flex h-28 w-64 shrink-0 flex-col items-center justify-between p-3.5 transition-all duration-300 hover:-translate-y-1 hover:shadow-glow-sm sm:w-72"
       style={{ '--cut': '12px' } as React.CSSProperties}
     >
-      {/* Crisp light stage so dark-lettered and coloured logos have 100% contrast */}
-      <div className="flex h-14 w-full items-center justify-center rounded-xs bg-[#f7faf8] px-5 py-2 shadow-inner transition-colors duration-300 group-hover:bg-white">
+      {/* Crisp white stage so dark-lettered and coloured logos have 100% contrast */}
+      <div className="flex h-14 w-full items-center justify-center rounded-xs border border-fg/[0.06] bg-white px-5 py-2 transition-colors duration-300">
         <img
           src={logoSrc}
           alt={item.name}
@@ -29,8 +29,10 @@ function PartnerCard({ item, lang }: { item: PartnerConfig; lang: 'fr' | 'en' })
 
       {/* Partner name + specialty footer */}
       <div className="mt-2 flex w-full items-center justify-between gap-2 font-mono text-[10px]">
-        <span className="font-semibold text-white group-hover:text-brand-neon">{item.name}</span>
-        <span className="truncate text-gray-300/85">{specialty}</span>
+        <span className="font-semibold text-fg group-hover:text-accent-strong dark:group-hover:text-brand-neon">
+          {item.name}
+        </span>
+        <span className="truncate text-muted">{specialty}</span>
       </div>
     </div>
   )
@@ -39,24 +41,24 @@ function PartnerCard({ item, lang }: { item: PartnerConfig; lang: 'fr' | 'en' })
 /**
  * Partners section:
  * Two opposite-direction infinite marquee rows that pause on hover,
- * showcasing SolTele's official hardware and telecom partners
- * (Yealink, Yeastar, Flyingvoice, Zyxel Networks, Katela Networks).
+ * showcasing SolTele's official hardware and telecom partners.
+ * Harmonized for both Light mode and Dark mode.
  */
 export function Partners() {
   const { lang, t } = useTranslation()
   const partners = siteConfig.partners
   const reversed = [...partners].reverse()
 
-  /* Repeat 3x per track so wide screens have a seamless 50% marquee loop */
+  /* Repeat 4x per track so wide screens have a seamless 50% marquee loop */
   const row1 = [...partners, ...partners, ...partners, ...partners]
   const row2 = [...reversed, ...reversed, ...reversed, ...reversed]
 
   return (
     <section
       id="partenaires"
-      className="on-forest relative overflow-hidden bg-gradient-to-b from-[#041b12] via-[#063d2d] to-[#041b12] pt-12 text-white sm:pt-16"
+      className="relative overflow-hidden bg-surface pt-12 text-fg dark:bg-[#041b12] dark:text-white sm:pt-16"
     >
-      <CircuitPagne className="text-brand-neon/[0.04]" size={64} />
+      <CircuitPagne className="text-[#063d2d]/[0.03] dark:text-brand-neon/[0.04]" size={64} />
 
       <div className="container-x relative z-10">
         <SectionHeader
@@ -65,7 +67,6 @@ export function Partners() {
           titleAccent={t.partners.titleAccent}
           intro={t.partners.intro}
           align="center"
-          onDark
         />
       </div>
 

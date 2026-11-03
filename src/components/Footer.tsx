@@ -16,8 +16,9 @@ const CURRENT_YEAR = new Date().getFullYear()
 
 /**
  * Footer section:
- * Deep forest backdrop, giant S watermark (5% opacity), Abidjan skyline LagoonLine,
- * navigation & expertise links, language & theme controls, and dynamic copyright year.
+ * Harmonized for Light mode (clean white surface, black titles, anthracite text)
+ * and Dark mode (deep forest surface, white text), with giant S watermark,
+ * Abidjan skyline LagoonLine, navigation & expertise links, and dynamic copyright year.
  */
 export function Footer({ onNavigate }: FooterProps) {
   const { t } = useTranslation()
@@ -40,31 +41,31 @@ export function Footer({ onNavigate }: FooterProps) {
   ]
 
   return (
-    <footer className="on-forest relative overflow-hidden bg-[#041b12] pt-12 text-white sm:pt-16">
-      <CircuitPagne className="text-brand-neon/[0.04]" size={64} />
+    <footer className="relative overflow-hidden border-t border-fg/10 bg-surface pt-12 text-fg dark:border-white/10 dark:bg-[#041b12] dark:text-white sm:pt-16">
+      <CircuitPagne className="text-[#063d2d]/[0.03] dark:text-brand-neon/[0.04]" size={64} />
 
-      {/* Giant S watermark (5% opacity) as required */}
+      {/* Giant S watermark */}
       <SMark
-        className="pointer-events-none absolute -right-20 -bottom-20 h-[380px] w-[380px] text-brand-neon/[0.05]"
+        className="pointer-events-none absolute -right-20 -bottom-20 h-[380px] w-[380px] text-[#063d2d]/[0.035] dark:text-brand-neon/[0.05]"
         mono
       />
 
       <div className="container-x relative z-10 pb-10">
-        <div className="grid gap-10 border-b border-white/10 pb-10 sm:grid-cols-2 lg:grid-cols-12">
+        <div className="grid gap-10 border-b border-fg/10 pb-10 dark:border-white/10 sm:grid-cols-2 lg:grid-cols-12">
           {/* Brand column */}
           <div className="lg:col-span-4">
-            <Logo onDark showBaseline size="md" />
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-gray-300">
+            <Logo size="md" />
+            <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted dark:text-gray-300">
               {t.footer.tagline}
             </p>
             <div className="mt-5 flex items-center gap-2.5">
-              <LanguageSwitch onDark />
-              <ThemeToggle onDark />
+              <LanguageSwitch />
+              <ThemeToggle />
               <a
                 href="#accueil"
                 onClick={() => onNavigate?.('accueil')}
                 aria-label={t.a11y.backToTop}
-                className="inline-flex h-9 w-9 items-center justify-center rounded border border-white/15 bg-white/[0.06] text-gray-200 transition-colors hover:border-brand-neon hover:text-brand-neon"
+                className="inline-flex h-9 w-9 items-center justify-center rounded border border-fg/15 bg-bg text-fg transition-colors hover:border-[#063d2d] hover:text-accent-strong dark:border-white/15 dark:bg-white/[0.06] dark:text-gray-200 dark:hover:border-brand-neon dark:hover:text-brand-neon"
               >
                 <ArrowUp className="h-4 w-4" aria-hidden="true" />
               </a>
@@ -73,16 +74,16 @@ export function Footer({ onNavigate }: FooterProps) {
 
           {/* Navigation column */}
           <div className="lg:col-span-2">
-            <h3 className="font-mono text-xs font-semibold uppercase tracking-widest text-brand-neon">
+            <h3 className="font-mono text-xs font-semibold uppercase tracking-widest text-accent-strong dark:text-brand-neon">
               {t.footer.navTitle}
             </h3>
-            <ul className="mt-4 space-y-2.5 text-sm text-gray-300">
+            <ul className="mt-4 space-y-2.5 text-sm text-muted dark:text-gray-300">
               {navLinks.map((item) => (
                 <li key={item.id}>
                   <a
                     href={`#${item.id}`}
                     onClick={() => onNavigate?.(item.id)}
-                    className="transition-colors hover:text-brand-neon"
+                    className="transition-colors hover:text-fg dark:hover:text-brand-neon"
                   >
                     {item.label}
                   </a>
@@ -93,16 +94,16 @@ export function Footer({ onNavigate }: FooterProps) {
 
           {/* Expertise column */}
           <div className="lg:col-span-3">
-            <h3 className="font-mono text-xs font-semibold uppercase tracking-widest text-brand-neon">
+            <h3 className="font-mono text-xs font-semibold uppercase tracking-widest text-accent-strong dark:text-brand-neon">
               {t.footer.servicesTitle}
             </h3>
-            <ul className="mt-4 space-y-2.5 text-sm text-gray-300">
+            <ul className="mt-4 space-y-2.5 text-sm text-muted dark:text-gray-300">
               {serviceLinks.map((title) => (
                 <li key={title}>
                   <a
                     href="#expertise"
                     onClick={() => onNavigate?.('expertise')}
-                    className="transition-colors hover:text-brand-neon"
+                    className="transition-colors hover:text-fg dark:hover:text-brand-neon"
                   >
                     {title}
                   </a>
@@ -113,21 +114,21 @@ export function Footer({ onNavigate }: FooterProps) {
 
           {/* Contact details column */}
           <div className="lg:col-span-3">
-            <h3 className="font-mono text-xs font-semibold uppercase tracking-widest text-brand-neon">
+            <h3 className="font-mono text-xs font-semibold uppercase tracking-widest text-accent-strong dark:text-brand-neon">
               {t.footer.contactTitle}
             </h3>
-            <ul className="mt-4 space-y-3 text-sm text-gray-300">
+            <ul className="mt-4 space-y-3 text-sm text-muted dark:text-gray-300">
               <li className="flex items-start gap-2.5">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-neon" aria-hidden="true" />
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent-strong dark:text-brand-neon" aria-hidden="true" />
                 <span>
                   {siteConfig.contact.address.line1}, {siteConfig.contact.address.line2}
                 </span>
               </li>
               <li className="flex items-center gap-2.5">
-                <Phone className="h-4 w-4 shrink-0 text-brand-neon" aria-hidden="true" />
+                <Phone className="h-4 w-4 shrink-0 text-accent-strong dark:text-brand-neon" aria-hidden="true" />
                 <a
                   href={siteConfig.contact.phoneHref}
-                  className="font-mono transition-colors hover:text-brand-neon"
+                  className="font-mono transition-colors hover:text-fg dark:hover:text-brand-neon"
                 >
                   {siteConfig.contact.phoneDisplay}
                 </a>
@@ -136,11 +137,11 @@ export function Footer({ onNavigate }: FooterProps) {
           </div>
         </div>
 
-        {/* Bottom legal bar matching reference/Contact.png */}
-        <div className="mt-6 flex flex-col items-center justify-between gap-3 font-mono text-xs text-gray-400 sm:flex-row">
+        {/* Bottom legal bar */}
+        <div className="mt-6 flex flex-col items-center justify-between gap-3 font-mono text-xs text-muted dark:text-gray-400 sm:flex-row">
           <p>
-            <strong className="font-display font-bold text-white">Sol</strong>
-            <strong className="font-display font-bold text-brand-neon">Tele</strong> ·{' '}
+            <strong className="font-display font-bold text-fg dark:text-white">Sol</strong>
+            <strong className="font-display font-bold text-accent-strong dark:text-brand-neon">Tele</strong> ·{' '}
             {siteConfig.brand.full}
           </p>
           <p>

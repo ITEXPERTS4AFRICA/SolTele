@@ -16,6 +16,7 @@ import { useTranslation } from '../i18n/useTranslation'
 import { photos, type PhotoKey } from '../assets/images'
 import {
   CircuitPagne,
+  DataPackets,
   DiagonalDivider,
   SignalRings,
   SMark,
@@ -29,7 +30,7 @@ type DomainFilter = 'all' | 'voip' | 'security' | 'network'
 /** Mini SVG animation 1: VoIP call waves emanating from handset. */
 function VoipWaveMicro() {
   return (
-    <svg viewBox="0 0 64 40" className="h-9 w-14 text-brand-neon" aria-hidden="true">
+    <svg viewBox="0 0 64 40" className="h-9 w-14 text-accent-strong dark:text-brand-neon" aria-hidden="true">
       <circle cx="12" cy="20" r="4" fill="currentColor" />
       {[12, 22, 32].map((r, i) => (
         <path
@@ -67,10 +68,6 @@ function CctvPanMicro() {
       <div className="motion-loop animate-pan origin-left">
         <Camera className="h-5 w-5 text-accent-strong dark:text-brand-neon" aria-hidden="true" />
       </div>
-      <span
-        className="motion-loop animate-blink absolute top-1.5 right-1.5 h-1.5 w-1.5 rounded-full bg-brand-neon"
-        aria-hidden="true"
-      />
     </div>
   )
 }
@@ -78,7 +75,7 @@ function CctvPanMicro() {
 /** Mini SVG animation 4: Network cables lighting up with data packets. */
 function NetworkCableMicro() {
   return (
-    <svg viewBox="0 0 72 36" className="h-9 w-16 text-brand-neon" aria-hidden="true">
+    <svg viewBox="0 0 72 36" className="h-9 w-16 text-accent-strong dark:text-brand-neon" aria-hidden="true">
       <g stroke="currentColor" strokeOpacity="0.3" strokeWidth="1.5" fill="none">
         <path d="M4 8 H28 L40 18 H68" />
         <path d="M4 28 H28 L40 18" />
@@ -102,10 +99,8 @@ function NetworkCableMicro() {
 
 /**
  * Expertise (Asymmetric Bento Grid) + Field Showcase Carousel:
- * - Responsive Bento Grid (Desktop: 2 asymmetric columns / 3-column layout matching reference/Expertise.png;
- *   Tablet: 2 balanced columns; Mobile: 1 column).
- * - Cursor-following radial glow (`hover:shadow-green-500/20`) + custom mini-animation on every card.
- * - Interactive domain filter pills (`Tous`, `Téléphonie`, `Sécurité`, `Réseaux`) + Framer Motion image carousel.
+ * Harmonized for both Light mode (white/pearl backgrounds, black titles, discreet circuit lines)
+ * and Dark mode (deep forest backgrounds, white titles, glowing neon accents).
  */
 export function Services() {
   const { t } = useTranslation()
@@ -212,12 +207,13 @@ export function Services() {
   return (
     <section id="expertise" className="relative overflow-hidden bg-bg">
       {/* ====================================================================
-          PART 1: Dark Forest Interactive Carousel ("Sur le terrain")
+          PART 1: Interactive Carousel ("Sur le terrain")
           ==================================================================== */}
-      <div className="on-forest relative overflow-hidden bg-[#041b12] pt-12 pb-16 text-white sm:pt-16 sm:pb-20">
-        <CircuitPagne className="text-brand-neon/[0.04]" size={64} />
+      <div className="relative overflow-hidden bg-surface pt-12 pb-16 text-fg dark:bg-[#041b12] dark:text-white sm:pt-16 sm:pb-20">
+        <CircuitPagne className="text-[#063d2d]/[0.03] dark:text-brand-neon/[0.04]" size={64} />
+        <DataPackets className="absolute inset-0 h-full w-full text-[#063d2d] opacity-60 dark:text-brand-neon dark:opacity-45" />
         <SMark
-          className="pointer-events-none absolute -top-12 right-[-60px] h-80 w-80 text-brand-neon/[0.04]"
+          className="pointer-events-none absolute -top-12 right-[-60px] h-80 w-80 text-[#063d2d]/[0.03] dark:text-brand-neon/[0.04]"
           mono
         />
 
@@ -228,7 +224,6 @@ export function Services() {
               titleLead={t.showcase.titleLead}
               titleAccent={t.showcase.titleAccent}
               intro={t.showcase.intro}
-              onDark
             />
 
             {/* Domain Filter Bar */}
@@ -247,8 +242,8 @@ export function Services() {
                     onClick={() => handleFilterChange(btn.id)}
                     className={`cut-tr relative rounded border px-4 py-2 font-display text-xs font-bold tracking-tight transition-all duration-200 ${
                       active
-                        ? 'border-brand-neon bg-brand-neon text-[#041b12] shadow-glow-sm'
-                        : 'border-white/15 bg-white/[0.05] text-gray-200 hover:-translate-y-0.5 hover:border-brand-neon/50 hover:text-white'
+                        ? 'border-[#063d2d] bg-[#063d2d] text-white dark:border-brand-neon dark:bg-brand-neon dark:text-[#041b12]'
+                        : 'border-fg/15 bg-bg text-muted hover:-translate-y-0.5 hover:border-[#063d2d]/50 hover:text-fg dark:border-white/15 dark:bg-white/[0.05] dark:text-gray-200 dark:hover:border-brand-neon/50 dark:hover:text-white'
                     }`}
                     style={{ '--cut': '7px' } as React.CSSProperties}
                   >
@@ -268,7 +263,7 @@ export function Services() {
             {/* Stage */}
             <div className="relative lg:col-span-8">
               <div
-                className="cut-both relative aspect-[16/10] w-full overflow-hidden rounded-md border border-brand-neon/30 bg-[#063d2d]/40 shadow-lift"
+                className="cut-both relative aspect-[16/10] w-full overflow-hidden rounded-md border border-fg/15 bg-bg shadow-lift dark:border-brand-neon/30 dark:bg-[#063d2d]/40"
                 style={{ '--cut': '22px' } as React.CSSProperties}
               >
                 <AnimatePresence mode="wait">
@@ -300,7 +295,7 @@ export function Services() {
                       </div>
 
                       {/* Controls */}
-                      <div className="flex items-center gap-2 shrink-0">
+                      <div className="flex shrink-0 items-center gap-2">
                         <button
                           type="button"
                           onClick={() => setPlaying((p) => !p)}
@@ -350,8 +345,8 @@ export function Services() {
                     aria-label={`${t.a11y.goToSlide} ${idx + 1}: ${slide.title}`}
                     className={`group flex min-w-[210px] items-center gap-3 rounded border p-2 text-left transition-all duration-200 lg:min-w-0 ${
                       isCurrent
-                        ? 'border-brand-neon bg-brand-neon/15 shadow-glow-sm'
-                        : 'border-white/10 bg-white/[0.03] hover:border-brand-neon/40 hover:bg-white/[0.06]'
+                        ? 'border-[#063d2d] bg-[#f7faf8] shadow-soft dark:border-brand-neon dark:bg-brand-neon/15 dark:shadow-glow-sm'
+                        : 'border-fg/10 bg-white hover:border-[#063d2d]/40 hover:bg-[#f7faf8]/60 dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-brand-neon/40 dark:hover:bg-white/[0.06]'
                     }`}
                   >
                     <div className="h-12 w-16 shrink-0 overflow-hidden rounded-xs">
@@ -364,10 +359,12 @@ export function Services() {
                       />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate font-display text-xs font-bold text-white">
+                      <p className="truncate font-display text-xs font-bold text-fg dark:text-white">
                         {slide.title}
                       </p>
-                      <p className="mt-0.5 truncate text-[11px] text-gray-300">{slide.text}</p>
+                      <p className="mt-0.5 truncate text-[11px] text-muted dark:text-gray-300">
+                        {slide.text}
+                      </p>
                     </div>
                   </button>
                 )
@@ -382,6 +379,8 @@ export function Services() {
       {/* ====================================================================
           PART 2: Asymmetric Bento Grid (4 core telecom & IT trades)
           ==================================================================== */}
+      <div className="tech-grid-light dark:tech-grid pointer-events-none absolute inset-x-0 bottom-0 top-1/3 opacity-60" aria-hidden="true" />
+
       <div className="container-x relative z-10 py-14 sm:py-20 lg:py-24">
         <SectionHeader
           eyebrow={t.services.eyebrow}
@@ -398,16 +397,13 @@ export function Services() {
           </div>
         )}
 
-        {/* Responsive Asymmetric Bento Grid:
-            - Mobile: 1 column
-            - Tablet (md): 2 balanced columns
-            - Desktop (lg): 12-column asymmetric layout matching reference/Expertise.png */}
+        {/* Responsive Asymmetric Bento Grid */}
         <div
           className={`mt-10 grid grid-cols-1 gap-5 transition-opacity duration-200 md:grid-cols-2 lg:grid-cols-12 ${
             filterLoading ? 'opacity-60' : 'opacity-100'
           }`}
         >
-          {/* CARD 1: Téléphonie IP & VoIP (Tall dark forest card on left) */}
+          {/* CARD 1: Téléphonie IP & VoIP */}
           {showVoip && (
             <motion.article
               layout
@@ -416,23 +412,22 @@ export function Services() {
               viewport={{ once: true, margin: '-8% 0px' }}
               transition={{ duration: 0.5 }}
               onPointerMove={onSpotlight}
-              className={`spotlight cut-tr group relative flex flex-col justify-between overflow-hidden rounded-md border border-brand-neon/30 bg-gradient-to-b from-[#041b12] via-[#063d2d] to-[#041b12] p-6 text-white shadow-soft transition-all duration-500 hover:-translate-y-1 hover:border-brand-neon/70 hover:shadow-green-500/20 hover:shadow-2xl sm:p-7 ${
+              className={`card spotlight cut-tr group relative flex flex-col justify-between overflow-hidden p-6 transition-all duration-500 hover:-translate-y-1 hover:shadow-green-500/20 hover:shadow-2xl sm:p-7 ${
                 filter === 'all' ? 'md:col-span-2 lg:col-span-5 lg:row-span-2' : 'md:col-span-2 lg:col-span-12'
               }`}
               style={{ '--cut': '20px' } as React.CSSProperties}
             >
-              {/* Signature Circuit-Pagne lattice as in reference/Expertise.png */}
-              <CircuitPagne className="text-brand-neon/[0.12]" size={56} />
+              <CircuitPagne className="text-[#063d2d]/[0.04] dark:text-brand-neon/[0.08]" size={56} />
 
               <div className="relative z-10">
                 <div className="flex items-center justify-between gap-3">
-                  <span className="rounded-xs border border-brand-neon/35 bg-brand-neon/10 px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-widest text-brand-neon">
+                  <span className="rounded-xs border border-fg/15 bg-bg px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-widest text-accent-strong dark:border-brand-neon/35 dark:bg-brand-neon/10 dark:text-brand-neon">
                     {t.services.items.voip.tag}
                   </span>
                   <VoipWaveMicro />
                 </div>
 
-                <div className="mt-4 overflow-hidden rounded border border-white/10">
+                <div className="mt-4 overflow-hidden rounded border border-fg/10 dark:border-white/10">
                   <SmartImage
                     image={photos.voip}
                     alt={t.services.items.voip.alt}
@@ -445,9 +440,9 @@ export function Services() {
               </div>
 
               <div className="relative z-10 mt-6">
-                <div className="relative inline-flex h-11 w-11 items-center justify-center rounded border border-brand-neon/40 bg-brand-neon/15 text-brand-neon">
+                <div className="relative inline-flex h-11 w-11 items-center justify-center rounded border border-fg/15 bg-bg text-accent-strong dark:border-brand-neon/40 dark:bg-brand-neon/15 dark:text-brand-neon">
                   <SignalRings
-                    className="absolute -inset-3 h-16 w-16 text-brand-neon/35"
+                    className="absolute -inset-3 h-16 w-16 text-[#063d2d]/20 dark:text-brand-neon/35"
                     rings={2}
                     pulses={1}
                     emitter={false}
@@ -455,17 +450,17 @@ export function Services() {
                   <PhoneCall className="relative h-5 w-5" aria-hidden="true" />
                 </div>
 
-                <h3 className="mt-4 font-display text-2xl font-extrabold text-white">
+                <h3 className="mt-4 font-display text-2xl font-extrabold text-fg">
                   {t.services.items.voip.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-gray-200">
+                <p className="mt-2 text-sm leading-relaxed text-muted">
                   {t.services.items.voip.text}
                 </p>
 
-                <ul className="mt-4 space-y-2 border-t border-white/10 pt-4 text-xs text-gray-200">
+                <ul className="mt-4 space-y-2 border-t border-fg/10 pt-4 text-xs text-muted dark:border-white/10">
                   {t.services.items.voip.points.map((pt) => (
                     <li key={pt} className="flex items-center gap-2">
-                      <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-brand-neon" aria-hidden="true" />
+                      <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-accent-strong dark:text-brand-neon" aria-hidden="true" />
                       <span>{pt}</span>
                     </li>
                   ))}
@@ -473,7 +468,7 @@ export function Services() {
 
                 <a
                   href="#contact"
-                  className="mt-5 inline-flex items-center gap-1.5 font-display text-xs font-bold text-brand-neon transition-transform group-hover:translate-x-1"
+                  className="mt-5 inline-flex items-center gap-1.5 font-display text-xs font-bold text-accent-strong transition-transform group-hover:translate-x-1 dark:text-brand-neon"
                 >
                   <span>{t.services.cta}</span>
                   <ArrowUpRight className="h-4 w-4" />
@@ -482,7 +477,7 @@ export function Services() {
             </motion.article>
           )}
 
-          {/* CARD 2: Cybersécurité (Top middle card) */}
+          {/* CARD 2: Cybersécurité */}
           {showSecurity && (
             <motion.article
               layout
@@ -497,7 +492,7 @@ export function Services() {
             >
               <div className="relative z-10">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="rounded-xs border border-brand-neon/35 bg-brand-neon/10 px-2.5 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-accent-strong dark:text-brand-neon">
+                  <span className="rounded-xs border border-fg/15 bg-bg px-2.5 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-accent-strong dark:border-brand-neon/35 dark:bg-brand-neon/10 dark:text-brand-neon">
                     {t.services.items.cyber.tag}
                   </span>
                   <CyberShieldMicro />
@@ -532,7 +527,7 @@ export function Services() {
             </motion.article>
           )}
 
-          {/* CARD 3: Vidéosurveillance (Top right card) */}
+          {/* CARD 3: Vidéosurveillance */}
           {showSecurity && (
             <motion.article
               layout
@@ -547,7 +542,7 @@ export function Services() {
             >
               <div className="relative z-10">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="rounded-xs border border-brand-neon/35 bg-brand-neon/10 px-2.5 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-accent-strong dark:text-brand-neon">
+                  <span className="rounded-xs border border-fg/15 bg-bg px-2.5 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-accent-strong dark:border-brand-neon/35 dark:bg-brand-neon/10 dark:text-brand-neon">
                     {t.services.items.cctv.tag}
                   </span>
                   <CctvPanMicro />
@@ -582,7 +577,7 @@ export function Services() {
             </motion.article>
           )}
 
-          {/* CARD 4: Réseaux & Infrastructures IT (Wide bottom-right signature gradient card) */}
+          {/* CARD 4: Réseaux & Infrastructures IT */}
           {showNetwork && (
             <motion.article
               layout
@@ -591,33 +586,33 @@ export function Services() {
               viewport={{ once: true, margin: '-8% 0px' }}
               transition={{ duration: 0.5, delay: 0.2 }}
               onPointerMove={onSpotlight}
-              className={`spotlight cut-bl group relative overflow-hidden rounded-md border border-brand-neon/40 bg-gradient-to-r from-[#063d2d] via-[#0b5a44] to-[#15803d] p-6 text-white shadow-soft transition-all duration-500 hover:-translate-y-1 hover:border-brand-neon hover:shadow-green-500/20 hover:shadow-2xl sm:p-7 ${
+              className={`card spotlight cut-bl group relative overflow-hidden p-6 transition-all duration-500 hover:-translate-y-1 hover:shadow-green-500/20 hover:shadow-2xl sm:p-7 ${
                 filter === 'all' ? 'md:col-span-2 lg:col-span-7' : 'md:col-span-2 lg:col-span-12'
               }`}
               style={{ '--cut': '20px' } as React.CSSProperties}
             >
-              <CircuitPagne className="text-white/[0.06]" size={64} />
+              <CircuitPagne className="text-[#063d2d]/[0.035] dark:text-white/[0.05]" size={64} />
 
               <div className="relative z-10 grid items-center gap-6 sm:grid-cols-12">
                 <div className="sm:col-span-7">
                   <div className="flex items-center gap-3">
-                    <div className="inline-flex h-10 w-10 items-center justify-center rounded border border-brand-neon/50 bg-[#041b12]/50 text-brand-neon">
+                    <div className="inline-flex h-10 w-10 items-center justify-center rounded border border-fg/15 bg-bg text-accent-strong dark:border-brand-neon/50 dark:bg-[#041b12]/50 dark:text-brand-neon">
                       <Network className="h-5 w-5" aria-hidden="true" />
                     </div>
                     <NetworkCableMicro />
                   </div>
 
-                  <h3 className="mt-4 font-display text-xl font-extrabold text-white sm:text-2xl">
+                  <h3 className="mt-4 font-display text-xl font-extrabold text-fg sm:text-2xl">
                     {t.services.items.network.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-gray-100">
+                  <p className="mt-2 text-sm leading-relaxed text-muted">
                     {t.services.items.network.text}
                   </p>
 
-                  <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-gray-100">
+                  <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-muted">
                     {t.services.items.network.points.map((pt) => (
                       <li key={pt} className="inline-flex items-center gap-1.5">
-                        <CheckCircle2 className="h-3.5 w-3.5 text-brand-neon" aria-hidden="true" />
+                        <CheckCircle2 className="h-3.5 w-3.5 text-accent-strong dark:text-brand-neon" aria-hidden="true" />
                         <span>{pt}</span>
                       </li>
                     ))}
@@ -629,7 +624,7 @@ export function Services() {
                     image={photos.network}
                     alt={t.services.items.network.alt}
                     sizes="(min-width: 1024px) 280px, 100vw"
-                    className="h-40 w-full border border-white/20 sm:h-44"
+                    className="h-40 w-full border border-fg/10 dark:border-white/20 sm:h-44"
                     imgClassName="group-hover:scale-105"
                     cut="tr"
                   />
@@ -640,9 +635,8 @@ export function Services() {
         </div>
       </div>
 
-      {/* Diagonal S-cut into dark forest Method section */}
-      <DiagonalDivider direction="up-left" fillClassName="fill-[#041b12]" />
+      {/* Diagonal S-cut into Method section */}
+      <DiagonalDivider direction="up-left" fillClassName="fill-surface dark:fill-[#041b12]" />
     </section>
   )
 }
-

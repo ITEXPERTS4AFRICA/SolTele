@@ -55,7 +55,7 @@ export const fr = {
     dark: 'Sombre',
   },
   hero: {
-    badge: 'Abidjan · Cocody',
+    badge: 'Abidjan, Cocody',
     titleLead: 'Sécurisez vos données.',
     titleAccent: 'Connectez votre entreprise.',
     subtitle:

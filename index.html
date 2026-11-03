@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr" class="dark">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -175,7 +175,7 @@
           var d = document.documentElement
           var t = localStorage.getItem('soltele-theme')
           if (t !== 'light' && t !== 'dark') {
-            t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
+            t = 'light'
           }
           d.classList.toggle('dark', t === 'dark')
           d.style.colorScheme = t

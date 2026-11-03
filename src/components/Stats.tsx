@@ -13,6 +13,7 @@ function StatCounter({ stat, label }: { stat: StatConfig; label: string }) {
     if (!inView || typeof stat.value !== 'number') return
     const target = stat.value
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
     let raf = 0
     const start = performance.now()
     const duration = reduce ? 1 : 1350
@@ -34,12 +35,14 @@ function StatCounter({ stat, label }: { stat: StatConfig; label: string }) {
   return (
     <div
       ref={ref}
-      className="group relative flex flex-col justify-between rounded border border-white/10 bg-white/[0.03] px-4 py-3.5 backdrop-blur-sm transition-colors duration-300 hover:border-brand-neon/45 hover:bg-white/[0.06]"
+      className="group relative flex flex-col justify-between rounded border border-fg/10 bg-[#f7faf8]/90 px-4 py-3.5 transition-colors duration-300 hover:border-brand-green/50 hover:bg-white dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-brand-neon/45 dark:hover:bg-white/[0.06]"
     >
-      <div className="flex items-baseline gap-1 font-mono text-2xl font-bold tracking-tight text-brand-neon sm:text-3xl">
+      <div className="flex items-baseline gap-1 font-mono text-2xl font-bold tracking-tight text-[#063d2d] dark:text-brand-neon sm:text-3xl">
         <span>{formatted}</span>
       </div>
-      <span className="mt-1 text-xs font-medium text-gray-300 sm:text-[13px]">{label}</span>
+      <span className="mt-1 text-xs font-medium text-muted dark:text-gray-300 sm:text-[13px]">
+        {label}
+      </span>
     </div>
   )
 }

@@ -31,7 +31,8 @@ const SECTION_IDS: readonly SectionId[] = [
 /**
  * Sticky Header with backdrop blur, compact scroll state, green reading progress
  * bar at the bottom, FR|EN switch, Sun/Moon theme toggle, and a full-screen
- * animated mobile menu over a deep forest backdrop with giant S watermark.
+ * animated mobile menu. Harmonizes with both Light mode (white canvas, black text)
+ * and Dark mode (deep forest canvas, white text).
  */
 export function Header({ onNavigate }: HeaderProps) {
   const { t } = useTranslation()
@@ -68,16 +69,13 @@ export function Header({ onNavigate }: HeaderProps) {
     onNavigate?.(id)
   }
 
-  /* While over the Hero (top of page), the header sits on a dark forest canvas in both themes. */
-  const onDarkHeader = !scrolled
-
   return (
     <>
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-[background-color,padding,border-color,box-shadow] duration-300 ${
           scrolled
-            ? 'border-b border-fg/10 bg-surface/85 py-2.5 shadow-soft backdrop-blur-md dark:border-brand-neon/15 dark:bg-[#041b12]/85'
-            : 'border-b border-white/10 bg-[#041b12]/60 py-4 backdrop-blur-md'
+            ? 'border-b border-fg/10 bg-white/90 py-2.5 shadow-soft backdrop-blur-md dark:border-brand-neon/15 dark:bg-[#041b12]/90'
+            : 'border-b border-fg/[0.07] bg-white/80 py-3.5 backdrop-blur-md dark:border-white/10 dark:bg-[#041b12]/75'
         }`}
       >
         <div className="container-x flex items-center justify-between gap-4">
@@ -87,7 +85,7 @@ export function Header({ onNavigate }: HeaderProps) {
             aria-label={t.a11y.home}
             className="shrink-0"
           >
-            <Logo onDark={onDarkHeader} size={scrolled ? 'sm' : 'md'} />
+            <Logo size={scrolled ? 'sm' : 'md'} />
           </a>
 
           {/* Desktop navigation */}
@@ -102,12 +100,8 @@ export function Header({ onNavigate }: HeaderProps) {
                   aria-current={isCurrent ? 'location' : undefined}
                   className={`relative rounded px-3.5 py-2 text-sm font-medium transition-colors duration-200 ${
                     isCurrent
-                      ? onDarkHeader
-                        ? 'text-brand-neon'
-                        : 'text-accent-strong dark:text-brand-neon'
-                      : onDarkHeader
-                        ? 'text-gray-200 hover:text-white'
-                        : 'text-muted hover:text-fg dark:text-gray-300 dark:hover:text-white'
+                      ? 'text-accent-strong dark:text-brand-neon'
+                      : 'text-muted hover:text-fg dark:text-gray-300 dark:hover:text-white'
                   }`}
                 >
                   {item.label}
@@ -115,7 +109,7 @@ export function Header({ onNavigate }: HeaderProps) {
                     <motion.span
                       layoutId="header-active-nav"
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                      className="absolute inset-x-3 bottom-1 h-0.5 rounded-xs bg-brand-neon shadow-glow-sm"
+                      className="absolute inset-x-3 bottom-1 h-0.5 rounded-xs bg-accent-strong dark:bg-brand-neon"
                     />
                   )}
                 </a>
@@ -125,12 +119,12 @@ export function Header({ onNavigate }: HeaderProps) {
 
           {/* Right actions */}
           <div className="hidden items-center gap-2.5 lg:flex">
-            <LanguageSwitch onDark={onDarkHeader} />
-            <ThemeToggle onDark={onDarkHeader} />
+            <LanguageSwitch />
+            <ThemeToggle />
             <a
               href="#contact"
               onClick={() => handleLinkClick('contact')}
-              className="cut-tr group relative inline-flex h-9 items-center gap-1.5 rounded bg-brand-neon px-4 font-display text-xs font-bold tracking-tight text-[#041b12] shadow-glow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#49e65a] hover:shadow-glow"
+              className="cut-tr group relative inline-flex h-9 items-center gap-1.5 rounded bg-[#063d2d] px-4 font-display text-xs font-bold tracking-tight text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#0b5a44] dark:bg-brand-neon dark:text-[#041b12] dark:shadow-glow-sm dark:hover:bg-[#49e65a]"
               style={{ '--cut': '8px' } as React.CSSProperties}
             >
               <span>{t.nav.quote}</span>
@@ -140,19 +134,15 @@ export function Header({ onNavigate }: HeaderProps) {
 
           {/* Mobile controls */}
           <div className="flex items-center gap-2 lg:hidden">
-            <LanguageSwitch onDark={onDarkHeader} />
-            <ThemeToggle onDark={onDarkHeader} />
+            <LanguageSwitch />
+            <ThemeToggle />
             <button
               type="button"
               onClick={() => setMenuOpen((v) => !v)}
               aria-expanded={menuOpen}
               aria-controls="mobile-fullscreen-menu"
               aria-label={menuOpen ? t.a11y.closeMenu : t.a11y.openMenu}
-              className={`inline-flex h-9 w-9 items-center justify-center rounded border transition-colors ${
-                onDarkHeader
-                  ? 'border-white/20 bg-white/[0.06] text-white hover:border-brand-neon/60'
-                  : 'border-fg/15 bg-surface text-fg hover:border-brand-neon/60 dark:border-white/20 dark:bg-white/[0.06] dark:text-white'
-              }`}
+              className="inline-flex h-9 w-9 items-center justify-center rounded border border-fg/15 bg-surface text-fg transition-colors hover:border-brand-green dark:border-white/20 dark:bg-white/[0.06] dark:text-white"
             >
               {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
@@ -169,7 +159,7 @@ export function Header({ onNavigate }: HeaderProps) {
           className="pointer-events-none absolute inset-x-0 bottom-0 h-[2px] overflow-hidden bg-transparent"
         >
           <div
-            className="h-full origin-left bg-gradient-to-r from-[#063d2d] via-[#22c55e] to-[#39d94a] shadow-glow-sm transition-transform duration-150 ease-out"
+            className="h-full origin-left bg-gradient-to-r from-[#063d2d] via-[#22c55e] to-[#39d94a] transition-transform duration-150 ease-out"
             style={{ transform: `scaleX(${progress})` }}
           />
         </div>
@@ -187,17 +177,17 @@ export function Header({ onNavigate }: HeaderProps) {
             animate={{ opacity: 1, clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)' }}
             exit={{ opacity: 0, clipPath: 'polygon(0 0, 100% 0, 100% 0, 0 0)' }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-40 flex flex-col justify-between overflow-y-auto bg-[#041b12] px-6 pt-24 pb-8 text-white lg:hidden"
+            className="fixed inset-0 z-40 flex flex-col justify-between overflow-y-auto bg-white px-6 pt-24 pb-8 text-fg dark:bg-[#041b12] dark:text-white lg:hidden"
           >
             {/* Background motifs: Circuit-Pagne + Giant S watermark + Signal rings */}
-            <CircuitPagne className="text-brand-neon/[0.05]" size={64} />
+            <CircuitPagne className="text-fg/[0.03] dark:text-brand-neon/[0.05]" size={64} />
             <SignalRings
-              className="pointer-events-none absolute -right-24 -bottom-24 h-96 w-96 text-brand-neon/20"
+              className="pointer-events-none absolute -right-24 -bottom-24 h-96 w-96 text-brand-deep/15 dark:text-brand-neon/20"
               rings={4}
               pulses={2}
             />
             <SMark
-              className="pointer-events-none absolute top-1/2 left-1/2 h-[360px] w-[360px] -translate-x-1/2 -translate-y-1/2 text-brand-neon/[0.05]"
+              className="pointer-events-none absolute top-1/2 left-1/2 h-[360px] w-[360px] -translate-x-1/2 -translate-y-1/2 text-brand-deep/[0.04] dark:text-brand-neon/[0.05]"
               mono
             />
 
@@ -216,10 +206,14 @@ export function Header({ onNavigate }: HeaderProps) {
                         href={`#${item.id}`}
                         onClick={() => handleLinkClick(item.id)}
                         className={`inline-flex items-center gap-2 font-display text-2xl font-bold tracking-tight transition-colors xs:text-3xl ${
-                          isCurrent ? 'text-brand-neon' : 'text-white hover:text-brand-neon'
+                          isCurrent
+                            ? 'text-accent-strong dark:text-brand-neon'
+                            : 'text-fg hover:text-accent-strong dark:text-white dark:hover:text-brand-neon'
                         }`}
                       >
-                        <span className="font-mono text-xs text-brand-neon/60">0{idx + 1}</span>
+                        <span className="font-mono text-xs text-muted/60 dark:text-brand-neon/60">
+                          0{idx + 1}
+                        </span>
                         <span>{item.label}</span>
                       </a>
                     </motion.li>
@@ -236,7 +230,7 @@ export function Header({ onNavigate }: HeaderProps) {
                 <a
                   href="#contact"
                   onClick={() => handleLinkClick('contact')}
-                  className="cut-tr inline-flex h-12 w-full items-center justify-center gap-2 rounded bg-brand-neon px-6 font-display text-sm font-bold text-[#041b12] shadow-glow"
+                  className="cut-tr inline-flex h-12 w-full items-center justify-center gap-2 rounded bg-[#063d2d] px-6 font-display text-sm font-bold text-white dark:bg-brand-neon dark:text-[#041b12] dark:shadow-glow"
                   style={{ '--cut': '10px' } as React.CSSProperties}
                 >
                   <span>{t.nav.quote}</span>
@@ -244,17 +238,17 @@ export function Header({ onNavigate }: HeaderProps) {
                 </a>
                 <a
                   href={siteConfig.contact.phoneHref}
-                  className="inline-flex h-11 w-full items-center justify-center gap-2 rounded border border-brand-neon/35 bg-white/[0.04] px-5 font-mono text-xs text-gray-200 hover:border-brand-neon"
+                  className="inline-flex h-11 w-full items-center justify-center gap-2 rounded border border-fg/15 bg-bg px-5 font-mono text-xs text-fg dark:border-brand-neon/35 dark:bg-white/[0.04] dark:text-gray-200"
                 >
-                  <Phone className="h-3.5 w-3.5 text-brand-neon" />
+                  <Phone className="h-3.5 w-3.5 text-accent-strong dark:text-brand-neon" />
                   <span>{siteConfig.contact.phoneDisplay}</span>
                 </a>
               </motion.div>
             </div>
 
-            <div className="relative z-10 mt-6 flex items-center justify-between border-t border-white/10 pt-4 font-mono text-[11px] text-gray-400">
+            <div className="relative z-10 mt-6 flex items-center justify-between border-t border-fg/10 pt-4 font-mono text-[11px] text-muted dark:border-white/10 dark:text-gray-400">
               <span>{siteConfig.contact.address.line2}</span>
-              <span className="text-brand-neon">24/7</span>
+              <span className="text-accent-strong dark:text-brand-neon">24/7</span>
             </div>
           </motion.div>
         )}
@@ -262,4 +256,3 @@ export function Header({ onNavigate }: HeaderProps) {
     </>
   )
 }
-

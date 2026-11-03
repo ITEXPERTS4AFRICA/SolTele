@@ -111,22 +111,22 @@ export function About() {
             className="lg:col-span-6"
           >
             <div
-              className="cut-both relative overflow-hidden rounded-md border border-brand-neon/25 bg-gradient-to-br from-[#041b12] via-[#063d2d] to-[#041b12] p-6 text-white shadow-lift sm:p-8"
+              className="card cut-both relative overflow-hidden p-6 sm:p-8"
               style={{ '--cut': '24px' } as React.CSSProperties}
             >
               {/* Circuit-Pagne woven background */}
-              <CircuitPagne className="text-brand-neon/[0.06]" size={64} />
+              <CircuitPagne className="text-[#063d2d]/[0.04] dark:text-brand-neon/[0.06]" size={64} />
 
               {/* Watermark S */}
               <SMark
-                className="pointer-events-none absolute -right-14 -bottom-14 h-64 w-64 text-brand-neon/[0.06]"
+                className="pointer-events-none absolute -right-14 -bottom-14 h-64 w-64 text-[#063d2d]/[0.04] dark:text-brand-neon/[0.06]"
                 mono
               />
 
               {/* Concentric signal rings + interconnected nodes SVG */}
               <div className="relative mx-auto aspect-[4/3] w-full max-w-[480px]">
                 <SignalRings
-                  className="absolute inset-0 h-full w-full text-brand-neon/35"
+                  className="absolute inset-0 h-full w-full text-[#063d2d]/20 dark:text-brand-neon/35"
                   rings={4}
                   pulses={3}
                   emitter={false}
@@ -141,8 +141,8 @@ export function About() {
                   <polygon
                     points="96,108 392,126 376,328 112,318"
                     fill="none"
-                    stroke="#39d94a"
-                    strokeOpacity="0.28"
+                    stroke="#15803d"
+                    strokeOpacity="0.25"
                     strokeWidth="1.2"
                   />
 
@@ -154,8 +154,8 @@ export function About() {
                         y1={210}
                         x2={n.x}
                         y2={n.y}
-                        stroke="#39d94a"
-                        strokeOpacity="0.45"
+                        stroke="#15803d"
+                        strokeOpacity="0.35"
                         strokeWidth="1.4"
                       />
                       <line
@@ -163,8 +163,8 @@ export function About() {
                         y1={210}
                         x2={n.x}
                         y2={n.y}
-                        stroke="#39d94a"
-                        strokeWidth="2.2"
+                        stroke="#22c55e"
+                        strokeWidth="2"
                         strokeDasharray="6 90"
                         className="motion-loop animate-flow"
                         style={{ animationDelay: `${i * -1.4}s` }}
@@ -175,13 +175,13 @@ export function About() {
                   {/* Satellite nodes */}
                   {nodes.map((n, i) => (
                     <g key={`node-${i}`}>
-                      <circle cx={n.x} cy={n.y} r="12" fill="#39d94a" fillOpacity="0.16" />
-                      <circle cx={n.x} cy={n.y} r="5.5" fill="#39d94a" />
+                      <circle cx={n.x} cy={n.y} r="12" fill="#22c55e" fillOpacity="0.14" />
+                      <circle cx={n.x} cy={n.y} r="5" fill="#15803d" />
                       <text
                         x={n.x}
                         y={n.y - 16}
                         textAnchor="middle"
-                        fill="#86efac"
+                        fill="#15803d"
                         fontSize="10"
                         fontFamily="JetBrains Mono, monospace"
                         fontWeight="600"
@@ -192,13 +192,13 @@ export function About() {
                   ))}
 
                   {/* Central glowing hub */}
-                  <circle cx="240" cy="210" r="24" fill="#39d94a" fillOpacity="0.2" />
-                  <circle cx="240" cy="210" r="11" fill="#39d94a" />
+                  <circle cx="240" cy="210" r="24" fill="#22c55e" fillOpacity="0.16" />
+                  <circle cx="240" cy="210" r="10" fill="#15803d" />
                 </svg>
               </div>
 
               {/* Embedded real-life Abidjan team preview card at bottom of illustration */}
-              <div className="relative z-20 mt-4 grid grid-cols-12 items-center gap-3 rounded border border-white/15 bg-[#041b12]/80 p-3 backdrop-blur-md">
+              <div className="relative z-20 mt-4 grid grid-cols-12 items-center gap-3 rounded border border-fg/10 bg-bg/90 p-3 backdrop-blur-md dark:border-white/15 dark:bg-[#041b12]/80">
                 <div className="col-span-5 sm:col-span-4">
                   <SmartImage
                     image={photos.team}
@@ -210,14 +210,14 @@ export function About() {
                   />
                 </div>
                 <div className="col-span-7 sm:col-span-8">
-                  <div className="inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold text-brand-neon">
+                  <div className="inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold text-accent-strong dark:text-brand-neon">
                     <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
                     <span>{t.about.localTitle}</span>
                   </div>
-                  <p className="mt-0.5 font-display text-sm font-bold text-white">
+                  <p className="mt-0.5 font-display text-sm font-bold text-fg dark:text-white">
                     {t.about.localText}
                   </p>
-                  <p className="mt-0.5 text-xs text-gray-300">
+                  <p className="mt-0.5 text-xs text-muted dark:text-gray-300">
                     Solutions Telecom Officielle CI
                   </p>
                 </div>
@@ -269,8 +269,8 @@ export function About() {
         </div>
       </div>
 
-      {/* Diagonal cut transition to the dark forest Expertise / Showcase section */}
-      <DiagonalDivider direction="up-left" fillClassName="fill-[#041b12]" />
+      {/* Diagonal cut transition to the Expertise / Showcase section */}
+      <DiagonalDivider direction="up-left" fillClassName="fill-surface dark:fill-[#041b12]" />
     </section>
   )
 }

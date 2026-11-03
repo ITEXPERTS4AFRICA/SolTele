@@ -8,14 +8,15 @@ export interface SectionHeaderProps {
   titleTail?: string
   intro?: string
   align?: 'left' | 'center'
-  /** Render for dark forest sections regardless of active theme. */
+  /** Force light text when placed on a permanently dark surface. */
   onDark?: boolean
   className?: string
 }
 
 /**
- * Reusable section heading reproducing the logo's contrast:
- * sliced-circle eyebrow + bold Sora title with dark/white lead and gradient keyword.
+ * Reusable section heading:
+ * Clean uppercase eyebrow (no bullet/dot prefix) + bold Sora title with
+ * black/white lead and green gradient keyword.
  */
 export function SectionHeader({
   eyebrow,
@@ -37,16 +38,11 @@ export function SectionHeader({
       className={`${center ? 'mx-auto max-w-2xl text-center' : 'max-w-2xl'} ${className}`}
     >
       <div className={`eyebrow ${onDark ? '!text-brand-neon' : ''} ${center ? 'justify-center' : ''}`}>
-        {/* Mini sliced circle glyph */}
-        <span className="relative inline-flex h-2.5 w-2.5 items-center justify-center" aria-hidden="true">
-          <span className="absolute inset-0 rounded-full bg-brand-neon/30 motion-loop animate-ping" />
-          <span className="relative h-2 w-2 rounded-full bg-brand-neon" />
-        </span>
         <span>{eyebrow}</span>
       </div>
 
       <h2
-        className={`mt-3 font-display text-3xl font-extrabold leading-[1.08] tracking-tightest sm:text-4xl lg:text-[42px] ${
+        className={`mt-2.5 font-display text-3xl font-extrabold leading-[1.08] tracking-tightest sm:text-4xl lg:text-[42px] ${
           onDark ? 'text-white' : 'text-fg'
         }`}
       >
@@ -67,4 +63,3 @@ export function SectionHeader({
     </motion.div>
   )
 }
-

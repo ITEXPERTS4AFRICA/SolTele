@@ -5,16 +5,16 @@ export type { Theme, ThemeContextValue } from './useTheme'
 
 const STORAGE_KEY = 'soltele-theme'
 
-/** Stored choice first, then the OS preference, falling back to dark. */
+/** Stored choice first, defaulting to light (white background, black text). */
 function detectTheme(): Theme {
-  if (typeof window === 'undefined') return 'dark'
+  if (typeof window === 'undefined') return 'light'
   try {
     const stored = window.localStorage.getItem(STORAGE_KEY)
     if (stored === 'dark' || stored === 'light') return stored
   } catch {
     /* ignore */
   }
-  return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
+  return 'light'
 }
 
 function applyTheme(theme: Theme) {

@@ -390,34 +390,34 @@ export function Contact() {
 
           {/* Right column: Dark forest coordinates block + Green-tinted OpenStreetMap */}
           <div className="space-y-5 lg:col-span-5">
-            {/* Dark forest info card matching reference/Contact.png */}
+            {/* Coordinates card harmonized for Light & Dark mode */}
             <motion.div
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.08 }}
-              className="cut-tr relative overflow-hidden rounded-md border border-brand-neon/30 bg-gradient-to-br from-[#041b12] via-[#063d2d] to-[#041b12] p-6 text-white shadow-lift sm:p-7"
+              className="card cut-tr relative overflow-hidden p-6 sm:p-7"
               style={{ '--cut': '18px' } as React.CSSProperties}
             >
-              <CircuitPagne className="text-brand-neon/[0.05]" size={56} />
+              <CircuitPagne className="text-[#063d2d]/[0.035] dark:text-brand-neon/[0.05]" size={56} />
               <SMark
-                className="pointer-events-none absolute -right-10 -bottom-10 h-40 w-40 text-brand-neon/[0.06]"
+                className="pointer-events-none absolute -right-10 -bottom-10 h-40 w-40 text-[#063d2d]/[0.04] dark:text-brand-neon/[0.06]"
                 mono
               />
 
               <div className="relative z-10 space-y-4">
                 <div>
-                  <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-brand-neon">
+                  <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-accent-strong dark:text-brand-neon">
                     <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
                     {t.contact.info.address}
                   </span>
-                  <p className="mt-1 font-display text-base font-bold text-white">
+                  <p className="mt-1 font-display text-base font-bold text-fg">
                     {siteConfig.contact.address.line1}, {siteConfig.contact.address.line2}
                   </p>
                 </div>
 
                 <div>
-                  <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-brand-neon">
+                  <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-accent-strong dark:text-brand-neon">
                     <Phone className="h-3.5 w-3.5" aria-hidden="true" />
                     {t.contact.info.phone}
                   </span>
@@ -425,7 +425,7 @@ export function Contact() {
                     <a
                       href={siteConfig.contact.phoneHref}
                       aria-label={t.a11y.callUs}
-                      className="font-mono text-lg font-bold text-white transition-colors hover:text-brand-neon"
+                      className="font-mono text-lg font-bold text-fg transition-colors hover:text-accent-strong dark:hover:text-brand-neon"
                     >
                       {siteConfig.contact.phoneDisplay}
                     </a>
@@ -435,16 +435,16 @@ export function Contact() {
                 <div className="flex flex-wrap gap-2.5 pt-2">
                   <a
                     href={siteConfig.contact.phoneHref}
-                    className="inline-flex items-center gap-1.5 rounded border border-white/20 bg-white/[0.06] px-3.5 py-2 font-mono text-xs text-white transition-colors hover:border-brand-neon hover:text-brand-neon"
+                    className="inline-flex items-center gap-1.5 rounded border border-fg/15 bg-bg px-3.5 py-2 font-mono text-xs text-fg transition-colors hover:border-[#063d2d] dark:border-white/20 dark:bg-white/[0.06] dark:text-white dark:hover:border-brand-neon"
                   >
-                    <Phone className="h-3.5 w-3.5 text-brand-neon" aria-hidden="true" />
+                    <Phone className="h-3.5 w-3.5 text-accent-strong dark:text-brand-neon" aria-hidden="true" />
                     <span>{t.contact.info.callCta}</span>
                   </a>
                   <a
                     href={whatsappLink(t.contact.whatsappMessage)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 rounded bg-brand-neon px-3.5 py-2 font-display text-xs font-bold text-[#041b12] shadow-glow-sm transition-transform hover:-translate-y-0.5"
+                    className="inline-flex items-center gap-1.5 rounded bg-[#063d2d] px-3.5 py-2 font-display text-xs font-bold text-white transition-transform hover:-translate-y-0.5 dark:bg-brand-neon dark:text-[#041b12]"
                   >
                     <MessageCircle className="h-3.5 w-3.5" aria-hidden="true" />
                     <span>{t.contact.info.whatsappCta}</span>
@@ -496,8 +496,8 @@ export function Contact() {
         </div>
       </div>
 
-      {/* Diagonal S-cut into the dark forest Footer */}
-      <DiagonalDivider direction="up-left" fillClassName="fill-[#041b12]" />
+      {/* Diagonal S-cut into the Footer */}
+      <DiagonalDivider direction="up-left" fillClassName="fill-surface dark:fill-[#041b12]" />
     </section>
   )
 }

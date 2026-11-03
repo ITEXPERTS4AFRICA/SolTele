@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { CircuitPagne, SignalRings, SMark } from '../../assets/patterns'
-import { logoFullDark, logoMark } from '../../assets/images'
+import { logoFull, logoFullDark, logoMark } from '../../assets/images'
 import { useTranslation } from '../../i18n/useTranslation'
+import { useTheme } from '../../theme/useTheme'
 import { siteConfig } from '../../config/site'
 
 /** Props for the startup BrandLoader overlay. */
@@ -13,11 +14,11 @@ export interface BrandLoaderProps {
 
 /**
  * Signature startup loader featuring the official SolTele logo:
- * pulsing signal rings, diagonal cut progress bar, live step status, and
- * a smooth exit transition.
+ * adapts to Light mode (white canvas, black text) and Dark mode (deep forest canvas, white text).
  */
 export function BrandLoader({ onDone }: BrandLoaderProps) {
   const { t } = useTranslation()
+  const { theme } = useTheme()
   const [visible, setVisible] = useState(true)
   const [progress, setProgress] = useState(() =>
     typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -36,7 +37,7 @@ export function BrandLoader({ onDone }: BrandLoaderProps) {
     }
 
     const start = performance.now()
-    const duration = 950
+    const duration = 900
     let raf = 0
 
     const tick = (now: number) => {
@@ -49,7 +50,7 @@ export function BrandLoader({ onDone }: BrandLoaderProps) {
         window.setTimeout(() => {
           setVisible(false)
           onDone?.()
-        }, 180)
+        }, 160)
       }
     }
 
@@ -59,6 +60,7 @@ export function BrandLoader({ onDone }: BrandLoaderProps) {
 
   const stepIndex = progress < 40 ? 0 : progress < 85 ? 1 : 2
   const currentStep = t.loader.steps[stepIndex] ?? t.loader.steps[0]
+  const logoSrc = theme === 'dark' ? logoFullDark || logoFull : logoFull || logoFullDark
 
   return (
     <AnimatePresence>
@@ -71,36 +73,35 @@ export function BrandLoader({ onDone }: BrandLoaderProps) {
           initial={{ opacity: 1 }}
           exit={{
             opacity: 0,
-            y: '-6%',
-            transition: { duration: 0.45, ease: [0.65, 0, 0.35, 1] },
+            y: '-4%',
+            transition: { duration: 0.4, ease: [0.65, 0, 0.35, 1] },
           }}
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center overflow-hidden bg-[#041b12] text-white"
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center overflow-hidden bg-white text-fg dark:bg-[#041b12] dark:text-white"
         >
           {/* Subtle Circuit-Pagne background */}
-          <CircuitPagne className="text-brand-neon/[0.05]" size={72} />
-
-          {/* Ambient green halo */}
-          <div
-            className="pointer-events-none absolute h-80 w-80 rounded-full bg-brand-neon/15 blur-3xl"
-            aria-hidden="true"
-          />
+          <CircuitPagne className="text-[#063d2d]/[0.03] dark:text-brand-neon/[0.05]" size={72} />
 
           {/* Pulsing signal rings around the official SolTele logo */}
           <div className="relative flex h-52 w-72 items-center justify-center">
-            <SignalRings className="absolute inset-0 h-full w-full text-brand-neon/40" rings={3} pulses={2} emitter={false} />
+            <SignalRings
+              className="absolute inset-0 h-full w-full text-[#063d2d]/20 dark:text-brand-neon/40"
+              rings={3}
+              pulses={2}
+              emitter={false}
+            />
             <motion.div
-              initial={{ scale: 0.88, opacity: 0 }}
+              initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.45, ease: 'easeOut' }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
               className="relative z-10 flex items-center justify-center px-4"
             >
-              {logoFullDark ? (
+              {logoSrc ? (
                 <img
-                  src={logoFullDark}
+                  src={logoSrc}
                   alt={siteConfig.brand.full}
                   width={260}
                   height={120}
-                  className="h-24 w-auto object-contain drop-shadow-[0_4px_20px_rgba(57,217,74,0.35)] sm:h-28"
+                  className="h-24 w-auto object-contain sm:h-28"
                 />
               ) : logoMark ? (
                 <img src={logoMark} alt="" width={72} height={72} className="h-20 w-20 object-contain" />
@@ -112,13 +113,13 @@ export function BrandLoader({ onDone }: BrandLoaderProps) {
 
           {/* Progress bar */}
           <div className="mt-4 w-64 max-w-[80vw]">
-            <div className="flex items-center justify-between font-mono text-[11px] text-gray-300">
+            <div className="flex items-center justify-between font-mono text-[11px] text-muted dark:text-gray-300">
               <span className="truncate pr-2">{currentStep}</span>
-              <span className="text-brand-neon">{progress}%</span>
+              <span className="font-semibold text-[#063d2d] dark:text-brand-neon">{progress}%</span>
             </div>
-            <div className="mt-2 h-1.5 w-full overflow-hidden rounded-xs bg-white/10">
+            <div className="mt-2 h-1.5 w-full overflow-hidden rounded-xs bg-fg/10 dark:bg-white/10">
               <motion.div
-                className="h-full bg-gradient-to-r from-[#063d2d] via-[#22c55e] to-[#39d94a] shadow-glow-sm"
+                className="h-full bg-gradient-to-r from-[#063d2d] via-[#15803d] to-[#22c55e]"
                 style={{ width: `${progress}%` }}
               />
             </div>

@@ -54,7 +54,7 @@ export const en: Dictionary = {
     dark: 'Dark',
   },
   hero: {
-    badge: 'Abidjan · Cocody',
+    badge: 'Abidjan, Cocody',
     titleLead: 'Secure your data.',
     titleAccent: 'Connect your business.',
     subtitle:
