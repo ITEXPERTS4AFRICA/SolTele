@@ -29,16 +29,19 @@ Prérequis : **Node.js 20+** et **npm 10+**.
 # 1. Installer les dépendances
 npm install
 
-# 2. Lancer le serveur de développement (avec rechargement à chaud HMR)
+# 2. Configurer les variables d’environnement (si pas déjà présent)
+# Copier .env.example vers .env et renseigner VITE_GA_MEASUREMENT_ID
+
+# 3. Lancer le serveur de développement (avec rechargement à chaud HMR)
 npm run dev
 
-# 3. Vérifier la qualité du code (Oxlint + règles React Compiler)
+# 4. Vérifier la qualité du code (Oxlint + règles React Compiler)
 npm run lint
 
-# 4. Compiler TypeScript et générer le build de production dans /dist
+# 5. Compiler TypeScript et générer le build de production dans /dist
 npm run build
 
-# 5. Tester le build de production localement
+# 6. Tester le build de production localement
 npm run preview
 ```
 
@@ -203,6 +206,6 @@ Voici les évolutions recommandées pour faire grandir le site dans une **Phase 
    - Transformer chaque carte du Bento Grid (*Téléphonie IP*, *Cybersécurité*, *Vidéosurveillance*, *Réseaux IT*) en une page détaillée dédiée (`/expertise/telephonie-ip`, `/expertise/cybersecurite`, etc.) afin de décupler le positionnement SEO sur des requêtes techniques précises en Côte d’Ivoire.
 4. **Catalogue PDF téléchargeable (Brochure SolTele)** :
    - Ajouter un bouton dans la section *À propos* ou *Footer* permettant de télécharger la plaquette commerciale PDF de SolTele (FR / EN).
-5. **Analytics respectueux de la vie privée (Plausible / PostHog / Google Search Console)** :
-   - Connecter le domaine dans **Google Search Console**, soumettre `https://www.soltele.ci/sitemap.xml`, et suivre les clics sur le bouton WhatsApp, les appels téléphoniques et les envois de formulaires.
-# SolTele
+5. **Analytics & Suivi des conversions (Google Analytics 4 & Search Console)** :
+   - La balise Google Analytics (`gtag.js`) est intégrée dans `index.html` et pilotée par la variable `VITE_GA_MEASUREMENT_ID` définie dans `.env`. Connecter également le domaine dans **Google Search Console** et soumettre `https://www.soltele.ci/sitemap.xml`.
+
