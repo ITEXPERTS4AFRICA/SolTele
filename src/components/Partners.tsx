@@ -10,7 +10,11 @@ function PartnerCard({ item, lang }: { item: PartnerConfig; lang: 'fr' | 'en' })
   const specialty = lang === 'fr' ? item.specialtyFr : item.specialtyEn
 
   return (
-    <div
+    <a
+      href={item.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`${item.name} · ${specialty}`}
       className="card cut-tr group relative flex h-28 w-64 shrink-0 flex-col items-center justify-between p-3.5 transition-all duration-300 hover:-translate-y-1 hover:shadow-glow-sm sm:w-72"
       style={{ '--cut': '12px' } as React.CSSProperties}
     >
@@ -23,7 +27,7 @@ function PartnerCard({ item, lang }: { item: PartnerConfig; lang: 'fr' | 'en' })
           height={48}
           loading="lazy"
           decoding="async"
-          className="max-h-9 w-auto max-w-[175px] object-contain grayscale opacity-80 transition-all duration-300 group-hover:scale-105 group-hover:grayscale-0 group-hover:opacity-100"
+          className="max-h-9 w-auto max-w-[175px] object-contain opacity-90 transition-all duration-300 group-hover:scale-105 group-hover:opacity-100"
         />
       </div>
 
@@ -34,7 +38,7 @@ function PartnerCard({ item, lang }: { item: PartnerConfig; lang: 'fr' | 'en' })
         </span>
         <span className="truncate text-muted">{specialty}</span>
       </div>
-    </div>
+    </a>
   )
 }
 
@@ -73,7 +77,7 @@ export function Partners() {
       {/* 2 opposite-direction infinite marquee tracks */}
       <div
         aria-label={t.a11y.partnersList}
-        className="pause-on-hover mask-x relative z-10 mt-10 space-y-4 pb-14 sm:pb-20"
+        className="pause-on-hover mask-x relative z-10 mt-10 pb-14 sm:pb-20"
       >
         {/* Row 1: left to right */}
         <div className="flex overflow-hidden">

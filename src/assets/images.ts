@@ -7,10 +7,20 @@
 const files = import.meta.glob<string>('./images/*.webp', { eager: true, query: '?url', import: 'default' })
 
 /** Available photo keys. */
-export type PhotoKey = 'voip' | 'cyber' | 'cctv' | 'network' | 'abidjan' | 'technician' | 'team'
+export type PhotoKey =
+  | 'voip'
+  | 'cyber'
+  | 'cctv'
+  | 'network'
+  | 'wifi'
+  | 'pylone'
+  | 'solar'
+  | 'abidjan'
+  | 'technician'
+  | 'team'
 
 /** Partner logo keys. */
-export type PartnerLogoKey = 'flyingvoice' | 'yealink' | 'yeastar' | 'zyxel' | 'katela'
+export type PartnerLogoKey = 'proxim' | 'zyxel' | 'yealink' | 'yeastar' | 'fanvil' | 'mobotix'
 
 /** Ready to spread `<img>` attributes. */
 export interface ResponsiveImage {
@@ -37,6 +47,9 @@ export const photos: Record<PhotoKey, ResponsiveImage> = {
   cyber: build('cyber'),
   cctv: build('cctv'),
   network: build('network'),
+  wifi: build('wifi'),
+  pylone: build('pylone'),
+  solar: build('solar'),
   abidjan: build('abidjan'),
   technician: build('technician'),
   team: build('team'),
@@ -44,11 +57,12 @@ export const photos: Record<PhotoKey, ResponsiveImage> = {
 
 /** Official partner logos in transparent WebP. */
 export const partnerLogos: Record<PartnerLogoKey, string> = {
-  flyingvoice: files['./images/partner-flyingvoice.webp'] ?? '',
+  proxim: files['./images/partner-proxim.webp'] ?? '',
+  zyxel: files['./images/partner-zyxel.webp'] ?? '',
   yealink: files['./images/partner-yealink.webp'] ?? '',
   yeastar: files['./images/partner-yeastar.webp'] ?? '',
-  zyxel: files['./images/partner-zyxel.webp'] ?? '',
-  katela: files['./images/partner-katela.webp'] ?? '',
+  fanvil: files['./images/partner-fanvil.webp'] ?? '',
+  mobotix: files['./images/partner-mobotix.webp'] ?? '',
 }
 
 /** Official full SolTele logo for light backgrounds (original dark green OL & baseline). */

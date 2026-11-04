@@ -38,6 +38,9 @@ export function Footer({ onNavigate }: FooterProps) {
     t.services.items.cyber.title,
     t.services.items.cctv.title,
     t.services.items.network.title,
+    t.services.items.wifi.title,
+    t.services.items.pylone.title,
+    t.services.items.solar.title,
   ]
 
   return (

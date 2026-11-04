@@ -10,7 +10,10 @@ import {
   Pause,
   PhoneCall,
   Play,
+  RadioTower,
   ShieldCheck,
+  Sun,
+  Wifi,
 } from 'lucide-react'
 import { useTranslation } from '../i18n/useTranslation'
 import { photos, type PhotoKey } from '../assets/images'
@@ -25,7 +28,7 @@ import { SectionHeader } from './ui/SectionHeader'
 import { SmartImage } from './ui/SmartImage'
 import { useSpotlight } from '../hooks/useSpotlight'
 
-type DomainFilter = 'all' | 'voip' | 'security' | 'network'
+type DomainFilter = 'all' | 'voip' | 'security' | 'network' | 'energy'
 
 /** Mini SVG animation 1: VoIP call waves emanating from handset. */
 function VoipWaveMicro() {
@@ -97,6 +100,33 @@ function NetworkCableMicro() {
   )
 }
 
+/** Mini SVG animation 5: Enterprise WiFi concentric signal arcs. */
+function WifiSignalMicro() {
+  return (
+    <div className="relative flex h-9 w-12 items-center justify-center rounded-xs border border-brand-neon/30 bg-brand-neon/10">
+      <Wifi className="h-5 w-5 text-accent-strong dark:text-brand-neon motion-loop animate-pulse" aria-hidden="true" />
+    </div>
+  )
+}
+
+/** Mini SVG animation 6: Telecom tower point-to-point radio link. */
+function PyloneLinkMicro() {
+  return (
+    <div className="relative flex h-9 w-12 items-center justify-center rounded-xs border border-brand-neon/30 bg-brand-neon/10">
+      <RadioTower className="h-5 w-5 text-accent-strong dark:text-brand-neon motion-loop animate-pulse" aria-hidden="true" />
+    </div>
+  )
+}
+
+/** Mini SVG animation 7: Solar power autonomy indicator. */
+function SolarEnergyMicro() {
+  return (
+    <div className="relative flex h-9 w-12 items-center justify-center rounded-xs border border-brand-neon/30 bg-brand-neon/10">
+      <Sun className="h-5 w-5 text-accent-strong dark:text-brand-neon motion-loop animate-pulse" aria-hidden="true" />
+    </div>
+  )
+}
+
 /**
  * Expertise (Asymmetric Bento Grid) + Field Showcase Carousel:
  * Harmonized for both Light mode (white/pearl backgrounds, black titles, discreet circuit lines)
@@ -117,6 +147,27 @@ export function Services() {
     title: string
     text: string
   }[] = [
+    {
+      id: 'solar',
+      domain: 'energy',
+      photo: 'solar',
+      title: t.showcase.slides.solar.title,
+      text: t.showcase.slides.solar.text,
+    },
+    {
+      id: 'wifi',
+      domain: 'network',
+      photo: 'wifi',
+      title: t.showcase.slides.wifi.title,
+      text: t.showcase.slides.wifi.text,
+    },
+    {
+      id: 'pylone',
+      domain: 'energy',
+      photo: 'pylone',
+      title: t.showcase.slides.pylone.title,
+      text: t.showcase.slides.pylone.text,
+    },
     {
       id: 'office',
       domain: 'voip',
@@ -196,12 +247,14 @@ export function Services() {
   const showVoip = filter === 'all' || filter === 'voip'
   const showSecurity = filter === 'all' || filter === 'security'
   const showNetwork = filter === 'all' || filter === 'network'
+  const showEnergy = filter === 'all' || filter === 'energy'
 
   const filterButtons: { id: DomainFilter; label: string }[] = [
     { id: 'all', label: t.showcase.filters.all },
     { id: 'voip', label: t.showcase.filters.voip },
     { id: 'security', label: t.showcase.filters.security },
     { id: 'network', label: t.showcase.filters.network },
+    { id: 'energy', label: t.showcase.filters.energy },
   ]
 
   return (
@@ -284,7 +337,7 @@ export function Services() {
                     <div className="absolute inset-x-0 bottom-0 z-20 flex flex-col justify-between gap-3 bg-gradient-to-t from-[#041b12] via-[#041b12]/80 to-transparent p-5 sm:flex-row sm:items-end sm:p-7">
                       <div>
                         <span className="font-mono text-[11px] font-semibold uppercase tracking-widest text-brand-neon">
-                          0{safeIdx + 1} / 0{filteredSlides.length}
+                          {String(safeIdx + 1).padStart(2, '0')} / {String(filteredSlides.length).padStart(2, '0')}
                         </span>
                         <h3 className="mt-1 font-display text-xl font-bold text-white sm:text-2xl">
                           {activeSlide.title}
@@ -334,7 +387,7 @@ export function Services() {
             </div>
 
             {/* Thumbnail selector list */}
-            <div className="flex flex-row gap-2.5 overflow-x-auto lg:col-span-4 lg:flex-col lg:justify-between lg:overflow-visible">
+            <div className="flex flex-row gap-2.5 overflow-x-auto lg:col-span-4 lg:max-h-[440px] lg:flex-col lg:overflow-y-auto lg:pr-1">
               {filteredSlides.map((slide, idx) => {
                 const isCurrent = idx === safeIdx
                 return (
@@ -629,6 +682,192 @@ export function Services() {
                     cut="tr"
                   />
                 </div>
+              </div>
+            </motion.article>
+          )}
+
+          {/* CARD 5: WiFi Professionnel & Radio */}
+          {showNetwork && (
+            <motion.article
+              layout
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-8% 0px' }}
+              transition={{ duration: 0.5, delay: 0.24 }}
+              onPointerMove={onSpotlight}
+              className={`card spotlight cut-tr group flex flex-col justify-between overflow-hidden p-6 hover:-translate-y-1 hover:shadow-green-500/20 hover:shadow-2xl sm:p-7 ${
+                filter === 'all' ? 'md:col-span-1 lg:col-span-4' : 'md:col-span-2 lg:col-span-12'
+              }`}
+              style={{ '--cut': '16px' } as React.CSSProperties}
+            >
+              <div className="relative z-10">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="rounded-xs border border-fg/15 bg-bg px-2.5 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-accent-strong dark:border-brand-neon/35 dark:bg-brand-neon/10 dark:text-brand-neon">
+                    {t.services.items.wifi.tag}
+                  </span>
+                  <WifiSignalMicro />
+                </div>
+
+                <div className="mt-3.5 overflow-hidden rounded border border-fg/10 dark:border-white/10">
+                  <SmartImage
+                    image={photos.wifi}
+                    alt={t.services.items.wifi.alt}
+                    sizes="(min-width: 1024px) 360px, 100vw"
+                    className="h-40 w-full"
+                    imgClassName="group-hover:scale-105"
+                    cut="tr"
+                  />
+                </div>
+
+                <h3 className="mt-4 font-display text-xl font-extrabold text-fg">
+                  {t.services.items.wifi.title}
+                </h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-muted">
+                  {t.services.items.wifi.text}
+                </p>
+              </div>
+
+              <div className="relative z-10 mt-4">
+                <ul className="space-y-1.5 border-t border-fg/10 pt-3.5 text-xs text-muted dark:border-white/10">
+                  {t.services.items.wifi.points.map((pt) => (
+                    <li key={pt} className="flex items-center gap-2">
+                      <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-accent-strong dark:text-brand-neon" aria-hidden="true" />
+                      <span>{pt}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <a
+                  href="#contact"
+                  className="mt-4 inline-flex items-center gap-1.5 font-display text-xs font-bold text-accent-strong transition-transform group-hover:translate-x-1 dark:text-brand-neon"
+                >
+                  <span>{t.services.cta}</span>
+                  <ArrowUpRight className="h-4 w-4" />
+                </a>
+              </div>
+            </motion.article>
+          )}
+
+          {/* CARD 6: Pylônes & Interconnexion */}
+          {showEnergy && (
+            <motion.article
+              layout
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-8% 0px' }}
+              transition={{ duration: 0.5, delay: 0.28 }}
+              onPointerMove={onSpotlight}
+              className={`card spotlight cut-tr group flex flex-col justify-between overflow-hidden p-6 hover:-translate-y-1 hover:shadow-green-500/20 hover:shadow-2xl sm:p-7 ${
+                filter === 'all' ? 'md:col-span-1 lg:col-span-4' : 'md:col-span-1 lg:col-span-6'
+              }`}
+              style={{ '--cut': '16px' } as React.CSSProperties}
+            >
+              <div className="relative z-10">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="rounded-xs border border-fg/15 bg-bg px-2.5 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-accent-strong dark:border-brand-neon/35 dark:bg-brand-neon/10 dark:text-brand-neon">
+                    {t.services.items.pylone.tag}
+                  </span>
+                  <PyloneLinkMicro />
+                </div>
+
+                <div className="mt-3.5 overflow-hidden rounded border border-fg/10 dark:border-white/10">
+                  <SmartImage
+                    image={photos.pylone}
+                    alt={t.services.items.pylone.alt}
+                    sizes="(min-width: 1024px) 360px, 100vw"
+                    className="h-40 w-full"
+                    imgClassName="group-hover:scale-105"
+                    cut="tr"
+                  />
+                </div>
+
+                <h3 className="mt-4 font-display text-xl font-extrabold text-fg">
+                  {t.services.items.pylone.title}
+                </h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-muted">
+                  {t.services.items.pylone.text}
+                </p>
+              </div>
+
+              <div className="relative z-10 mt-4">
+                <ul className="space-y-1.5 border-t border-fg/10 pt-3.5 text-xs text-muted dark:border-white/10">
+                  {t.services.items.pylone.points.map((pt) => (
+                    <li key={pt} className="flex items-center gap-2">
+                      <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-accent-strong dark:text-brand-neon" aria-hidden="true" />
+                      <span>{pt}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <a
+                  href="#contact"
+                  className="mt-4 inline-flex items-center gap-1.5 font-display text-xs font-bold text-accent-strong transition-transform group-hover:translate-x-1 dark:text-brand-neon"
+                >
+                  <span>{t.services.cta}</span>
+                  <ArrowUpRight className="h-4 w-4" />
+                </a>
+              </div>
+            </motion.article>
+          )}
+
+          {/* CARD 7: Énergie Solaire & Secours IT */}
+          {showEnergy && (
+            <motion.article
+              layout
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-8% 0px' }}
+              transition={{ duration: 0.5, delay: 0.32 }}
+              onPointerMove={onSpotlight}
+              className={`card spotlight cut-tr group flex flex-col justify-between overflow-hidden p-6 hover:-translate-y-1 hover:shadow-green-500/20 hover:shadow-2xl sm:p-7 ${
+                filter === 'all' ? 'md:col-span-2 lg:col-span-4' : 'md:col-span-1 lg:col-span-6'
+              }`}
+              style={{ '--cut': '16px' } as React.CSSProperties}
+            >
+              <div className="relative z-10">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="rounded-xs border border-fg/15 bg-bg px-2.5 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-accent-strong dark:border-brand-neon/35 dark:bg-brand-neon/10 dark:text-brand-neon">
+                    {t.services.items.solar.tag}
+                  </span>
+                  <SolarEnergyMicro />
+                </div>
+
+                <div className="mt-3.5 overflow-hidden rounded border border-fg/10 dark:border-white/10">
+                  <SmartImage
+                    image={photos.solar}
+                    alt={t.services.items.solar.alt}
+                    sizes="(min-width: 1024px) 360px, 100vw"
+                    className="h-40 w-full"
+                    imgClassName="group-hover:scale-105"
+                    cut="tr"
+                  />
+                </div>
+
+                <h3 className="mt-4 font-display text-xl font-extrabold text-fg">
+                  {t.services.items.solar.title}
+                </h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-muted">
+                  {t.services.items.solar.text}
+                </p>
+              </div>
+
+              <div className="relative z-10 mt-4">
+                <ul className="space-y-1.5 border-t border-fg/10 pt-3.5 text-xs text-muted dark:border-white/10">
+                  {t.services.items.solar.points.map((pt) => (
+                    <li key={pt} className="flex items-center gap-2">
+                      <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-accent-strong dark:text-brand-neon" aria-hidden="true" />
+                      <span>{pt}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <a
+                  href="#contact"
+                  className="mt-4 inline-flex items-center gap-1.5 font-display text-xs font-bold text-accent-strong transition-transform group-hover:translate-x-1 dark:text-brand-neon"
+                >
+                  <span>{t.services.cta}</span>
+                  <ArrowUpRight className="h-4 w-4" />
+                </a>
               </div>
             </motion.article>
           )}

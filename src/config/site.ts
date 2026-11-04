@@ -28,6 +28,7 @@ export type ContactMode = 'mailto' | 'endpoint'
 export interface PartnerConfig {
   id: string
   name: string
+  url: string
   logoKey: PartnerLogoKey
   specialtyFr: string
   specialtyEn: string
@@ -65,11 +66,28 @@ export const siteConfig = {
     /** e.g. a Formspree / serverless URL. Used when mode = 'endpoint'. */
     endpoint: '',
   },
-  /** Official technology partners. */
+  /** Official technology partners (deduplicated). */
   partners: [
+    {
+      id: 'proxim',
+      name: 'Proxim Wireless',
+      url: 'https://www.proxim.com',
+      logoKey: 'proxim',
+      specialtyFr: 'Faisceaux Hertziens & Ponts Radio',
+      specialtyEn: 'Wireless Backhaul & Point to Point',
+    },
+    {
+      id: 'zyxel',
+      name: 'Zyxel Networks',
+      url: 'https://www.zyxel.com',
+      logoKey: 'zyxel',
+      specialtyFr: 'Réseaux, WiFi Pro & Firewalls',
+      specialtyEn: 'Networking, Pro WiFi & Firewalls',
+    },
     {
       id: 'yealink',
       name: 'Yealink',
+      url: 'https://www.yealink.com',
       logoKey: 'yealink',
       specialtyFr: 'Terminaux IP & Visioconférence',
       specialtyEn: 'IP Phones & Video Conferencing',
@@ -77,30 +95,26 @@ export const siteConfig = {
     {
       id: 'yeastar',
       name: 'Yeastar',
+      url: 'https://www.yeastar.com',
       logoKey: 'yeastar',
       specialtyFr: 'Standards IPBX & Communications',
       specialtyEn: 'IP PBX & Unified Communications',
     },
     {
-      id: 'flyingvoice',
-      name: 'Flyingvoice',
-      logoKey: 'flyingvoice',
-      specialtyFr: 'Téléphonie IP & Passerelles VoIP',
-      specialtyEn: 'IP Telephony & VoIP Gateways',
+      id: 'fanvil',
+      name: 'Fanvil',
+      url: 'https://www.fanvil.com',
+      logoKey: 'fanvil',
+      specialtyFr: 'Téléphonie SIP & Interphonie IP',
+      specialtyEn: 'SIP Phones & IP Intercoms',
     },
     {
-      id: 'zyxel',
-      name: 'Zyxel Networks',
-      logoKey: 'zyxel',
-      specialtyFr: 'Réseaux, WiFi Pro & Firewalls',
-      specialtyEn: 'Networking, Pro WiFi & Firewalls',
-    },
-    {
-      id: 'katela',
-      name: 'Katela Networks',
-      logoKey: 'katela',
-      specialtyFr: 'Infrastructures & Connectivité',
-      specialtyEn: 'Infrastructure & Connectivity',
+      id: 'mobotix',
+      name: 'MOBOTIX',
+      url: 'https://www.mobotix.com',
+      logoKey: 'mobotix',
+      specialtyFr: 'Vidéosurveillance IP & Thermique',
+      specialtyEn: 'Smart IP & Thermal Video Systems',
     },
   ] as PartnerConfig[],
 } as const

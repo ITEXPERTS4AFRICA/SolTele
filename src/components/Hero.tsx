@@ -1,6 +1,17 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Activity, ArrowRight, Camera, Lock, Network, PhoneCall, ShieldCheck } from 'lucide-react'
+import {
+  Activity,
+  ArrowRight,
+  Camera,
+  Lock,
+  Network,
+  PhoneCall,
+  RadioTower,
+  ShieldCheck,
+  Sun,
+  Wifi,
+} from 'lucide-react'
 import { useTranslation } from '../i18n/useTranslation'
 import {
   CircuitPagne,
@@ -48,7 +59,7 @@ function AnimatedWords({
   )
 }
 
-type ModuleKey = 'voip' | 'cyber' | 'cctv' | 'network'
+type ModuleKey = 'solar' | 'wifi' | 'pylone' | 'voip' | 'cyber' | 'cctv' | 'network'
 
 /**
  * Hero section:
@@ -56,12 +67,12 @@ type ModuleKey = 'voip' | 'cyber' | 'cctv' | 'network'
  *   restrained green accents, and discreet technical lines (`tech-grid-light`, `DataPackets`, `SignalRings`)
  *   passing subtly across the canvas.
  * - Dark mode: deep forest background (`#041b12`), white typography, luminous green traces.
- * - Clean `"Abidjan · Cocody"` badge without any leading dot/bullet.
+ * - Clean `"Abidjan, Cocody"` badge without any leading dot/bullet.
  */
 export function Hero() {
   const { t } = useTranslation()
   const onSpotlight = useSpotlight<HTMLDivElement>()
-  const [activeModule, setActiveModule] = useState<ModuleKey>('voip')
+  const [activeModule, setActiveModule] = useState<ModuleKey>('solar')
 
   const modules: {
     key: ModuleKey
@@ -71,6 +82,30 @@ export function Hero() {
     metric: string
     icon: typeof PhoneCall
   }[] = [
+    {
+      key: 'solar',
+      photo: 'solar',
+      label: t.hero.dashboard.solar,
+      status: t.hero.dashboard.solarStatus,
+      metric: '100% ON',
+      icon: Sun,
+    },
+    {
+      key: 'wifi',
+      photo: 'wifi',
+      label: t.hero.dashboard.wifi,
+      status: t.hero.dashboard.wifiStatus,
+      metric: '2.4 Gbps',
+      icon: Wifi,
+    },
+    {
+      key: 'pylone',
+      photo: 'pylone',
+      label: t.hero.dashboard.pylone,
+      status: t.hero.dashboard.pyloneStatus,
+      metric: '25 km PtP',
+      icon: RadioTower,
+    },
     {
       key: 'voip',
       photo: 'voip',
@@ -105,6 +140,7 @@ export function Hero() {
     },
   ]
 
+  const featuredHeroCards = modules.slice(0, 3)
   const currentModule = modules.find((m) => m.key === activeModule) ?? modules[0]!
 
   return (
@@ -212,6 +248,51 @@ export function Hero() {
             >
               <Stats />
             </motion.div>
+
+            {/* Featured visual strip: Solaire, WiFi, Pylône directly visible in Hero */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.88 }}
+              className="mt-6 grid max-w-xl grid-cols-3 gap-2.5 sm:gap-3"
+            >
+              {featuredHeroCards.map((item) => {
+                const Icon = item.icon
+                const isSelected = item.key === activeModule
+                return (
+                  <button
+                    key={item.key}
+                    type="button"
+                    onClick={() => setActiveModule(item.key)}
+                    className={`cut-tr group relative overflow-hidden rounded border text-left transition-all duration-300 hover:-translate-y-0.5 ${
+                      isSelected
+                        ? 'border-[#063d2d] ring-1 ring-[#063d2d]/30 dark:border-brand-neon dark:ring-brand-neon/40'
+                        : 'border-fg/15 bg-white hover:border-[#063d2d]/50 dark:border-white/15 dark:bg-white/[0.04] dark:hover:border-brand-neon/50'
+                    }`}
+                    style={{ '--cut': '10px' } as React.CSSProperties}
+                  >
+                    <div className="relative h-20 w-full overflow-hidden sm:h-24">
+                      <img
+                        src={photos[item.photo].src}
+                        srcSet={photos[item.photo].srcSet}
+                        sizes="200px"
+                        alt={item.label}
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#041b12]/85 via-[#041b12]/25 to-transparent" />
+                      <span className="absolute top-1.5 left-1.5 inline-flex h-6 w-6 items-center justify-center rounded-xs bg-white/90 text-[#063d2d] shadow-xs dark:bg-[#041b12]/85 dark:text-brand-neon">
+                        <Icon className="h-3.5 w-3.5" aria-hidden="true" />
+                      </span>
+                      <div className="absolute inset-x-2 bottom-1.5">
+                        <p className="truncate font-display text-[11px] font-bold text-white sm:text-xs">
+                          {item.label}
+                        </p>
+                      </div>
+                    </div>
+                  </button>
+                )
+              })}
+            </motion.div>
           </div>
 
           {/* Right column: Network Dashboard card (coherent in Light & Dark) */}
@@ -247,7 +328,7 @@ export function Hero() {
                   alt={currentModule.label}
                   sizes="(min-width: 1024px) 420px, 92vw"
                   priority
-                  className="h-36 w-full sm:h-44"
+                  className="h-44 w-full sm:h-52"
                   cut="tr"
                 />
                 {/* HUD overlay on preview */}
@@ -262,8 +343,12 @@ export function Hero() {
               </div>
 
               {/* Status rows (interactive: click switches the live preview, no bullet dots) */}
-              <div className="relative z-10 mt-3.5 space-y-2" role="tablist" aria-label={t.hero.dashboard.title}>
-                {modules.map((mod) => {
+              <div
+                className="relative z-10 mt-3.5 grid grid-cols-1 gap-1.5 sm:grid-cols-2"
+                role="tablist"
+                aria-label={t.hero.dashboard.title}
+              >
+                {modules.map((mod, idx) => {
                   const Icon = mod.icon
                   const isSelected = mod.key === activeModule
                   return (
@@ -273,17 +358,19 @@ export function Hero() {
                       role="tab"
                       aria-selected={isSelected}
                       onClick={() => setActiveModule(mod.key)}
-                      className={`flex w-full items-center justify-between rounded border px-3.5 py-2.5 text-left transition-all duration-200 ${
+                      className={`flex w-full items-center justify-between rounded border px-3 py-2 text-left transition-all duration-200 ${
+                        idx === 0 ? 'sm:col-span-2' : ''
+                      } ${
                         isSelected
                           ? 'border-[#063d2d]/45 bg-[#f7faf8] dark:border-brand-neon/60 dark:bg-brand-neon/15'
                           : 'border-fg/10 bg-white hover:border-fg/25 hover:bg-[#f7faf8]/60 dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-brand-neon/35 dark:hover:bg-white/[0.07]'
                       }`}
                     >
-                      <span className="flex items-center gap-2.5">
-                        <Icon className="h-4 w-4 text-[#063d2d] dark:text-brand-neon" aria-hidden="true" />
-                        <span className="text-sm font-medium text-fg dark:text-white">{mod.label}</span>
+                      <span className="flex min-w-0 items-center gap-2">
+                        <Icon className="h-3.5 w-3.5 shrink-0 text-[#063d2d] dark:text-brand-neon" aria-hidden="true" />
+                        <span className="truncate text-xs font-medium text-fg dark:text-white">{mod.label}</span>
                       </span>
-                      <span className="font-mono text-xs font-semibold text-[#15803d] dark:text-brand-neon">
+                      <span className="ml-2 shrink-0 font-mono text-[11px] font-semibold text-[#15803d] dark:text-brand-neon">
                         {mod.status}
                       </span>
                     </button>
